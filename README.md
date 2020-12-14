@@ -1,5 +1,7 @@
 # Chaos Toolkit extension for Dynatrace
 
+![Build](https://github.com/chaostoolkit-incubator/chaostoolkit-dynatrace/workflows/Build/badge.svg)
+
 [Dynatrace][dynatrace] support for the [Chaos Toolkit][chaostoolkit].
 
 [dynatrace]: https://www.dynatrace.es/
