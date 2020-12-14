@@ -8,7 +8,7 @@ __all__ = ["failure_rate"]
 
 
 def failure_rate(entity: str, relative_time: str,
-                 faile_percentage: int, configuration: Configuration,
+                 failed_percentage: int, configuration: Configuration,
                  secrets: Secrets = None) -> bool:
     """
     Validates the failure rate of a specific service.
@@ -47,6 +47,6 @@ def failure_rate(entity: str, relative_time: str,
             count = count+1
 
     logger.debug("faile rate percentage '{}'".format((acum/count)))
-    if (acum/count) < faile_percentage:
+    if (acum/count) < failed_percentage:
         return True
     return False

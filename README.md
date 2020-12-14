@@ -58,14 +58,14 @@ for this example, the api for validate de failure rate is [Metric-v1][]
         "arguments": {
             "entity": "SERVICE-665B05BC92550119",
             "relative_time":"30mins",
-            "faile_percentage": 1
+            "failed_percentage": 1
         }
     }
 }
 ```
 
 The probe returns true if the api request failure percentage is less than 
-"faile_percentage" or raises an exception when an error is met.
+"failed_percentage" or raises an exception when an error is met.
 
 
 The result is not further process and should be found in the generated report
