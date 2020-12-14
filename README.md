@@ -43,8 +43,9 @@ This package only exports probes to get some aspects of your system
 monitored by Dynatrace.
 
 Here is an example of how to get the failure rate of a service in Dynatrace.
-for this example, the api for validate de failure rate is [Metric-v1][]
-[Metric-v1]:https://www.dynatrace.com/support/help/dynatrace-api/environment-api/metric-v1/
+for this example, the api for validate de failure rate is [Metric-v1][mv1]
+
+[mv1]:https://www.dynatrace.com/support/help/dynatrace-api/environment-api/metric-v1/
 
 
 ```json
