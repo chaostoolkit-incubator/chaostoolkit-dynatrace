@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from typing import Any, Dict
 from logzero import logger
 import requests
 from chaoslib.exceptions import ActivityFailed
@@ -13,7 +12,7 @@ def failure_rate(entity: str, relative_time: str,
                  secrets: Secrets = None) -> bool:
     """
     Validates the failure rate of a specific service.
-    Returns true if the failure rate is less than the expected failure rate 
+    Returns true if the failure rate is less than the expected failure rate
     For more information check the api documentation.
     https://www.dynatrace.com/support/help/dynatrace-api/environment-api/metric-v1/
     """

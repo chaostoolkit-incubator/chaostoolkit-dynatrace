@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import List
 
-from chaoslib.discovery.discover import (discover_actions, discover_probes,
+from chaoslib.discovery.discover import (discover_probes,
                                          initialize_discovery_result)
 from chaoslib.types import DiscoveredActivities, Discovery
 from logzero import logger
