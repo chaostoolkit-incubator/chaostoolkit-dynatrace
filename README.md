@@ -1,7 +1,5 @@
 # Chaos Toolkit extension for Dynatrace
 
-[![Build Status](https://travis-ci.org/chaostoolkit-incubator/chaostoolkit-dynatrace.svg?branch=main)](https://travis-ci.org/chaostoolkit-incubator/chaostoolkit-dynatrace)
-
 [Dynatrace][dynatrace] support for the [Chaos Toolkit][chaostoolkit].
 
 [dynatrace]: https://www.dynatrace.es/
@@ -32,8 +30,8 @@ the access credentials to the api must be specified in the configuration section
 
     "configuration": {
         "dynatrace": {
-            "dynatrace_base_url": $dynatrace_base_url,
-            "dynatrace_token": $dynatrace_token
+            "dynatrace_base_url": "$dynatrace_base_url",
+            "dynatrace_token": "$dynatrace_token"
         }
     }
 }
