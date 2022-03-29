@@ -12,12 +12,12 @@
 * Probes to query logs
 * Using `black` as formatter of the code
 * Brought handy makefile from other projects
-* Requires now Python 3.7 in line with Chaos Toolkit
-* Update github build
 
 ### Changed
 
 * Switched to [httpx][] as HTTP client
+* Update github build
+* Requires now Python 3.7 in line with Chaos Toolkit
 
 [httpx]: https://www.python-httpx.org/
 
