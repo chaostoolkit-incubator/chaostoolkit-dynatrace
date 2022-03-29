@@ -12,6 +12,7 @@
 * Probes to query logs
 * Using `black` as formatter of the code
 * Brought handy makefile from other projects
+* Requires now Python 3.7 in line with Chaos Toolkit
 
 ### Changed
 
