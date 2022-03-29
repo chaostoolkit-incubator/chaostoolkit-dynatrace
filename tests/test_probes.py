@@ -1,35 +1,32 @@
-# -*- coding: utf-8 -*-
 import pytest
-import requests
-import requests_mock
+import respx
+from httpx import Response
 
-from chaoslib.exceptions import ActivityFailed
 from chaosdynatrace.probes import failure_rate
 
 
-def test_failed_when_not_exist_configuration():
-    with pytest.raises(ActivityFailed) as exc:
-        failure_rate(
-            entity="service_1", relative_time="10mins",
-            failed_percentage="0.5", configuration={})
-    assert "To run commands" in str(exc.value)
-
-def test_failed_when_api_return_400():
-    with requests_mock.mock() as m:
-        m.get(
-            "https://xxxxx.live.dynatrace.com/api/v1/timeseries",
-            status_code=400,
-            text="Bad Request")
-
-        with pytest.raises(ActivityFailed) as ex:
-            failure_rate(
-                entity="service_1", relative_time="10mins",
-                failed_percentage="0.5",
-                configuration={
-                    "dynatrace":{
-                        "dynatrace_base_url": "https://xxxxx.live.dynatrace.com",
-                        "dynatrace_token": "c04P6LBfQO-I9svqCXu3q"
-                    }
-                }
+def test_probe_has_moved(respx_mock):
+    with pytest.deprecated_call():
+        respx.get(
+            url="https://xxxxx.live.dynatrace.com/api/v1/timeseries",
+            params=dict(
+                timeseriesId="com.dynatrace.builtin:service.failurerate",
+                relativeTime="now",
+                aggregationType="AVG",
+                entity="ENTITY",
+            ),
+        ).mock(
+            return_value=Response(
+                200, json={"result": {"dataPoints": {"ENTITY": [(0, None)]}}}
             )
-    assert "Dynatrace query" in str(ex.value)
+        )
+
+        failure_rate(
+            entity="ENTITY",
+            relative_time="now",
+            failed_percentage=100,
+            configuration={
+                "dynatrace_base_url": "https://xxxxx.live.dynatrace.com"
+            },
+            secrets={"token": "xyz"},
+        )

@@ -20,10 +20,10 @@ $ pip install chaostoolkit-dynatrace
 
 ## Usage
 
-To use this package, you must create have access to a Dynatrace instance via
+To use this package, you must  have access to a Dynatrace instance via
 [DynatraceApi][]  and be allowed to connect to it.
 
-[DynatraceApi]:https://www.dynatrace.com/support/help/dynatrace-api/basics/dynatrace-api-authentication/
+[DynatraceApi]: https://www.dynatrace.com/support/help/dynatrace-api/basics/dynatrace-api-authentication/
 
 the access credentials to the api must be specified in the configuration section
 
@@ -31,16 +31,15 @@ the access credentials to the api must be specified in the configuration section
 {
 
     "configuration": {
+        "dynatrace_base_url": "https://{your-environment-id}.live.dynatrace.com"
+    },
+    "secrets": {
         "dynatrace": {
-            "dynatrace_base_url": "$dynatrace_base_url",
-            "dynatrace_token": "$dynatrace_token"
+            "token": "..."
         }
     }
 }
 ```
-
-This package only exports probes to get some aspects of your system 
-monitored by Dynatrace.
 
 Here is an example of how to get the failure rate of a service in Dynatrace.
 for this example, the api for validate de failure rate is [Metric-v1][mv1]
@@ -54,23 +53,68 @@ for this example, the api for validate de failure rate is [Metric-v1][mv1]
     "name": "get-failure-rate-services",
     "provider": {
         "type": "python",
-        "module": "chaosdynatrace.probes",
+        "module": "chaosdynatrace.timeseries.v1.probes",
         "func": "failure_rate",
+        "secrets": ["dynatrace"],
         "arguments": {
             "entity": "SERVICE-665B05BC92550119",
-            "relative_time":"30mins",
+            "relative_time": "30mins",
             "failed_percentage": 1
         }
     }
 }
 ```
 
-The probe returns true if the api request failure percentage is less than 
-"failed_percentage" or raises an exception when an error is met.
+The probe returns `true` if the api request failure percentage is less than 
+the `failed_percentage` value or return `false`.
 
+The extension also exports a control to send events to Dynatrace. For instance:
 
-The result is not further process and should be found in the generated report
-of the experiment run.
+```json
+{
+    "controls": [
+        {
+            "name": "dynatrace",
+            "provider": {
+                "type": "python",
+                "secrets": ["dynatrace"],
+                "module": "chaosdynatrace.events.v2.control"
+            }
+        }
+    ]
+}
+```
+
+This will send start/stop logs of the experiment events.
+
+You can correlate them to traces using the [Open Telemetry][opentracing]
+extension.
+
+[opentracing]: https://chaostoolkit.org/drivers/opentracing/
+
+```json
+{
+    "configuration": {
+        "dynatrace_base_url": "https://{your-environment-id}.live.dynatrace.com",
+        "tracing_provider": "opentelemetry",
+        "tracing_opentelemetry_exporter": "oltp-http",
+        "tracing_opentelemetry_collector_endpoint": "https://{your-environment-id}.live.dynatrace.com/api/v2/otlp/v1/traces",
+        "tracing_opentelemetry_collector_headers": {
+            "Authorization": "Api-Token <TOKEN>"
+        }
+    },
+    "controls": [
+        {
+            "name": "opentracing",
+            "provider": {
+                "type": "python",
+                "module": "chaostracing.control"
+            }
+        }
+    ]
+```
+
+The logs and traces will be automatically correlated.
 
 ## Contribute
 
@@ -96,7 +140,7 @@ $ pip install -r requirements-dev.txt -r requirements.txt
 Then, point your environment to this directory:
 
 ```console
-$ python setup.py develop
+$ pip install -e .
 ```
 
 Now, you can edit the files and they will be automatically be seen by your
@@ -109,11 +153,3 @@ To run the tests for the project execute the following:
 ```
 $ pytest
 ```
-
-### Add new Dynatrace API Support
-
-Once you have setup your environment, you can start adding new
-[Dynatrace API support] [dynatraceapi] by adding new actions, probes and entire sub-packages
-for those.
-
-[dynatraceapi]: https://www.dynatrace.com/support/help/dynatrace-api

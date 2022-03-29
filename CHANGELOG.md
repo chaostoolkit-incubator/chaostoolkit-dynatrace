@@ -6,5 +6,20 @@
 
 ### Added
 
+* Probes to query metris v2 endpoint
+* Add a control to send logs
+* Correlate logs to traces from Open Telemtry if found
+* Probes to query logs
+* Using `black` as formatter of the code
+* Brought handy makefile from other projects
+
+### Changed
+
+* Switched to [httpx][] as HTTP client
+
+[httpx]: https://www.python-httpx.org/
+
+### Added
+
 -   Initial release
 -   Added package to get failure rate service from dynatrace tools
