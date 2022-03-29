@@ -17,7 +17,7 @@ from chaoslib.types import (
 from logzero import logger
 
 __all__ = ["api_client", "discover"]
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 
 @contextmanager
